@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Surprise</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #ff6f91, #ff9a9e);
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            overflow: hidden;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            position: relative;
+            width: 350px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.3); /* เพิ่มความเข้มให้พื้นหลัง */
+            backdrop-filter: blur(15px); /* เพิ่มความเบลอ */
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0px 4px 20px rgba(255, 20, 147, 0.6); /* สีชมพูสดใส */
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            animation: popIn 1s ease-out, glowPulse 2s infinite alternate;
+            margin: 20px;
+            z-index: 1;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes glowPulse {
+            from { box-shadow: 0px 0px 15px rgba(255, 105, 180, 0.5); }
+            to { box-shadow: 0px 0px 30px rgba(255, 20, 147, 1); }
+        }
+
+        .card img {
+            width: 100%; 
+            height: 350px;
+            object-fit: cover;
+            border-radius: 15px;
+            transition: transform 0.5s, opacity 0.5s ease-out;
+            margin: 10px 0;
+        }
+
+        .card:hover img {
+            transform: rotate(10deg) scale(1.1);
+            opacity: 0.85; /* เพิ่มความเด่นของภาพเมื่อ hover */
+        }
+
+        .message {
+            margin-top: 15px;
+            font-size: 24px; /* ขนาดตัวอักษรที่ใหญ่ขึ้น */
+            font-weight: bold;
+            color: #ffffff; /* สีข้อความเป็นสีชมพูเข้ม */
+            animation: heartbeat 1.5s infinite alternate, floatText 2s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        @keyframes floatText {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+
+        .heart, .bubble {
+            position: absolute;
+            font-size: 24px;
+            animation: floatUp 4s ease-in-out infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-150px) scale(1.5); opacity: 0; }
+        }
+
+        .sparkles {
+            position: absolute;
+            font-size: 20px;
+            color: gold;
+            animation: sparkle 2s linear infinite;
+        }
+
+        @keyframes sparkle {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        .love-button {
+            margin-top: 30px;
+            padding: 15px 30px;
+            background-color: #ff1493; /* ปรับปุ่มให้เป็นสีชมพูสดใส */
+            color: white;
+            font-size: 22px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .love-button:hover {
+            background-color: #ff69b4; /* ปรับสีเมื่อ hover */
+            transform: scale(1.1) rotate(10deg);
+        }
+
+    </style>
+</head>
+<body>
+    <button class="love-button" onclick="showLoveMessage()">กดจิ กดจิ</button>
+
+    <div class="card">
+        <p class="card-header">KON</p>
+        <img src="01.png" alt="Valentine Surprise">
+        <p class="message">Noo Ruk Auan Na Luv Luv U❤️</p>
+    </div>
+
+    <div class="card">
+        <p class="card-header">NA</p>
+        <img src="song.svg" alt="Valentine Surprise">
+        <p class="message">For you, my love, I sing ❤️</p>
+    </div>
+
+    <div class="card">
+        <p class="card-header">RUK</p>
+        <img src="03.png" alt="Valentine Surprise">
+        <p class="message">Valentine Day Luv Luv</p>
+    </div>
+
+    <audio id="love-sound" src="love-sound.mp3" preload="auto"></audio> <!-- เสียง -->
+
+    <script>
+        let soundPlayed = false;
+
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.innerHTML = "❤️";
+            heart.classList.add("heart");
+            heart.style.left = Math.random() * window.innerWidth + "px";
+            heart.style.top = window.innerHeight + "px";
+            heart.style.color = ["#ff69b4", "#ff1493", "#ff6b81"][Math.floor(Math.random() * 3)];
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 4000);
+        }
+        setInterval(createHeart, 300);
+        
+        function createSparkles() {
+            const sparkle = document.createElement("div");
+            sparkle.innerHTML = "✨";
+            sparkle.classList.add("sparkles");
+            sparkle.style.left = Math.random() * window.innerWidth + "px";
+            sparkle.style.top = Math.random() * window.innerHeight + "px";
+            document.body.appendChild(sparkle);
+            setTimeout(() => { sparkle.remove(); }, 2000);
+        }
+        setInterval(createSparkles, 500);
+        
+        function createBubble() {
+            const bubble = document.createElement("div");
+            bubble.innerHTML = "💗";
+            bubble.classList.add("bubble");
+            bubble.style.left = Math.random() * window.innerWidth + "px";
+            bubble.style.top = window.innerHeight + "px";
+            document.body.appendChild(bubble);
+            setTimeout(() => { bubble.remove(); }, 4000);
+        }
+        setInterval(createBubble, 600);
+
+        // ฟังก์ชันแสดงข้อความและเสียง
+        function showLoveMessage() {
+            if (!soundPlayed) {
+                const audio = document.getElementById("love-sound");
+                audio.play();
+                soundPlayed = true;  // เล่นเสียงแค่ครั้งเดียว
+            }
+
+            // แสดง SweetAlert
+            Swal.fire({
+                title: 'I love you! ❤️',
+                text: 'You are my forever and always.',
+                icon: 'success',
+                confirmButtonText: 'Aww, thank you!',
+                background: '#ff9a9e',
+                color: '#fff',
+                confirmButtonColor: '#ff1493'
+            });
+        }
+    </script>
+</body>
+</html>
